@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "name": "set_user",
+  "upstream": {
+    "repository": "pgaudit/set_user",
+    "ref": "REL4_2_0",
+    "version": "4.2.0"
+  },
+  "postgresql": {
+    "majors": [14, 15, 16, 17, 18]
+  },
+  "windows": {
+    "architecture": "x64"
+  },
+  "license": {
+    "verifyAgainstUpstream": true,
+    "upstreamPath": "LICENSE"
+  }
+}
