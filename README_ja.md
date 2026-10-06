@@ -6,7 +6,7 @@
 
 使用するupstreamは `pgaudit/set_user` の `REL4_2_0` です。PostgreSQL 14〜18を対象に検証します。
 
-初回Release tag:
+公開済みRelease tag:
 
 ~~~text
 v4.2.0-windows.1
