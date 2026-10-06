@@ -15,7 +15,7 @@ The package is validated on PostgreSQL 14, 15, 16, 17, and 18.
 
 ## Download
 
-The first pgextwin release is planned as:
+The current pgextwin release is:
 
 ~~~text
 v4.2.0-windows.1
