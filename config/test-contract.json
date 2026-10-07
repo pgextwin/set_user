@@ -1,0 +1,38 @@
+{
+  "contractVersion": 2,
+  "extension": "set_user",
+  "smokeTest": {
+    "script": "windows/ci/smoke-test.ps1"
+  },
+  "runtimeRequirements": {
+    "extensionCreation": "required",
+    "preload": "shared",
+    "backgroundWorker": false,
+    "clientExecutable": {
+      "required": false,
+      "packagePaths": []
+    }
+  },
+  "testSetup": {
+    "preload": "shared",
+    "backgroundWorker": false,
+    "settings": []
+  },
+  "coverage": {
+    "createExtension": "covered",
+    "backgroundWorker": "not-applicable",
+    "clientExecutable": "not-applicable",
+    "serverLogAssertions": "covered",
+    "upgrade": "not-covered"
+  },
+  "functionalScenarios": [
+    {
+      "id": "role-transition-and-reset",
+      "description": "Transitions current_user to a target role, resets to the original superuser, and verifies both state changes and server-log transition entries.",
+      "evidence": [
+        "sql-result",
+        "server-log"
+      ]
+    }
+  ]
+}
