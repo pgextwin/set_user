@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "source": "github",
+  "repository": "pgaudit/set_user",
+  "strategy": "github-releases",
+  "prereleases": false,
+  "stableTagPattern": "^REL(?P<version>[0-9]+_[0-9]+_[0-9]+)$"
+}
