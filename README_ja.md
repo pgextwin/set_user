@@ -9,7 +9,7 @@
 公開済みRelease tag:
 
 ~~~text
-v4.2.0-windows.1
+v4.2.0-windows.2
 ~~~
 
 ## 導入
