@@ -3,9 +3,9 @@
   "name": "set_user",
   "upstream": {
     "repository": "pgaudit/set_user",
-    "ref": "REL4_2_0",
-    "version": "4.2.0",
-    "commit": "db4e871528c4b62bba672abaf9044f4cc618ae8c"
+    "ref": "REL4_3_0",
+    "version": "4.3.0",
+    "commit": "45fc481de6874c2afc5199d7efbd2e32c66d702e"
   },
   "postgresql": {
     "majors": [
