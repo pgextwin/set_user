@@ -1,49 +1,22 @@
-# set_user Windows バイナリ
+# set_user — Windows x64 バイナリ
 
-[English](README.md) | **日本語**
+[English](README.md) | 日本語
 
-このリポジトリでは、[set_user](https://github.com/pgaudit/set_user) 4.2.0 の **非公式 Windows x64 バイナリ**を提供します。
+[set_user](https://github.com/pgaudit/set_user)の**非公式Windows x64バイナリ**を配布しています。権限を管理しながらデータベースロールを切り替えるための拡張機能です。
 
-使用するupstreamは `pgaudit/set_user` の `REL4_2_0` です。PostgreSQL 14〜18を対象に検証します。
+## ダウンロードと対応環境
 
-公開済みRelease tag:
+[最新の公開Release](https://github.com/pgextwin/set_user/releases/latest)から、利用中のPostgreSQLメジャーバージョンと一致するZIPを選んでください。[過去のReleases](https://github.com/pgextwin/set_user/releases)も確認できます。PostgreSQL **14〜18**向けの配布状況は[pgextwinカタログ](https://pgextwin.github.io/website/ja/)を参照してください。PostgreSQL 14のコミュニティサポートは2026年11月12日に終了します。
 
-~~~text
-v4.2.0-windows.2
-~~~
+## インストール
 
-## 導入
+1. バックアップを取得し、[上流の導入手順](https://github.com/pgaudit/set_user)を確認します。
+2. 既存ファイルを置き換える前にPostgreSQLを停止します。対応するZIP内のlib/とshare/extension/以下を、PostgreSQLの同名ディレクトリに配置します。
+3. postgresql.confのshared_preload_librariesへset_userを追加し、PostgreSQLを再起動します。利用権限や監査の要件は上流ドキュメントで確認してください。
+4. 必要な設定を反映してPostgreSQLを起動し、利用するデータベースでCREATE EXTENSION set_user;を実行します。
 
-1. PostgreSQLメジャーに一致するZIPを選択します。
-2. PostgreSQLを停止します。
-3. `lib/set_user.dll` を `lib` へコピーします。
-4. `share/extension/*` を `share/extension` へコピーします。
-5. `include/set_user.h` をPostgreSQLの `include` へコピーします。
-6. `shared_preload_libraries` に `set_user` を追加します。
-7. PostgreSQLを再起動します。
-8. `CREATE EXTENSION set_user;` を実行します。
+ReleaseのSHA256SUMS.txtでZIPを照合してください。SPDX形式のSBOM、脆弱性レポート、署名付き証明の有無はReleaseで確認できます。本番導入前に検証環境で動作を確認してください。
 
-詳細は [docs/windows_ja.md](docs/windows_ja.md) とupstream READMEを参照してください。
+## ライセンス
 
-## Windows互換処理
-
-PostgreSQL 16以降では `PG_FUNCTION_INFO_V1(set_user)` がWindows向け `PGDLLEXPORT` 宣言を生成しますが、upstream 4.2.0はその前にexport指定なしの `extern Datum set_user(...)` を宣言しています。
-
-pgextwinではbuild workspace内だけで、このprototypeを `PGDLLEXPORT` と一致させる最小compatibility editを適用します。upstream repositoryをforkしたsource copyは保持しません。
-
-## CIの合格条件
-
-PG14〜18で実際に:
-
-- preloadしてPostgreSQLを起動
-- `CREATE EXTENSION set_user`
-- postgresから非superuser roleへ `set_user()`
-- `current_user` / `session_user` を検証
-- `reset_user()` でpostgresへ復帰
-- PostgreSQL server logの両方向transition記録を確認
-
-まで行います。
-
-set_userは権限管理に関わるExtensionなので、実運用ではupstreamのallowlist/blocklist、superuser監査、設定パラメータを必ず確認してください。
-
-本バイナリはpgextwinによる非公式配布です。
+利用方法や制限事項は[上流のset_user](https://github.com/pgaudit/set_user)を参照してください。本配布は上流公式のWindows版ではありません。ライセンスは同梱の表記に従います。

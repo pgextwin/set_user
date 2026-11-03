@@ -1,104 +1,22 @@
-# set_user Windows binaries
+# set_user — Windows x64
 
-[日本語](README_ja.md) | **English**
+[日本語](README_ja.md) | English
 
-This repository provides **unofficial Windows x64 binaries** of [set_user](https://github.com/pgaudit/set_user).
+pgextwin distributes **unofficial Windows x64 binaries** of [set_user](https://github.com/pgaudit/set_user). set_user enables controlled role switching with audit safeguards.
 
-Upstream source:
+## Downloads and compatibility
 
-- repository: `pgaudit/set_user`
-- ref: `REL4_2_0`
-- version: 4.2.0
-- license: PostgreSQL License
-
-The package is validated on PostgreSQL 14, 15, 16, 17, and 18.
-
-## Download
-
-The current pgextwin release is:
-
-~~~text
-v4.2.0-windows.2
-~~~
-
-Assets use:
-
-~~~text
-set_user-REL4_2_0-pg14-windows-x64.zip
-...
-set_user-REL4_2_0-pg18-windows-x64.zip
-~~~
-
-Each package contains:
-
-~~~text
-lib/
-  set_user.dll
-share/
-  extension/
-    set_user.control
-    set_user--*.sql
-include/
-  set_user.h
-LICENSE
-UPSTREAM-README.md
-UPSTREAM-CHANGELOG.md
-PACKAGE-INFO.txt
-~~~
-
-The public `set_user.h` header is included because upstream installs it for extensions that register set_user post-execution hooks.
+Get the [latest published Release](https://github.com/pgextwin/set_user/releases/latest), or [browse all Releases](https://github.com/pgextwin/set_user/releases). Published PostgreSQL **14–18** packages appear in the [pgextwin catalog](https://pgextwin.github.io/website/en/). Select the ZIP matching your PostgreSQL major. PostgreSQL 14 community support ends November 12, 2026.
 
 ## Installation
 
-1. Select the ZIP matching the PostgreSQL major version.
-2. Stop PostgreSQL before replacing the DLL.
-3. Copy `lib/set_user.dll` to PostgreSQL's `lib`.
-4. Copy `share/extension/*` to PostgreSQL's `share/extension`.
-5. Copy `include/set_user.h` to PostgreSQL's `include`.
-6. Add `set_user` to `shared_preload_libraries`.
-7. Restart PostgreSQL.
-8. Run:
+1. Back up the relevant installation and review the [upstream setup instructions](https://github.com/pgaudit/set_user).
+2. Stop PostgreSQL before replacing files. Extract the matching ZIP and place the files from lib/ and share/extension/ into the corresponding PostgreSQL directories.
+3. Configure set_user in shared_preload_libraries and restart PostgreSQL. Check the upstream privilege and audit requirements before granting use of the extension.
+4. Start PostgreSQL after configuring the package and run CREATE EXTENSION set_user; in each database that needs it.
 
-~~~sql
-CREATE EXTENSION set_user;
-~~~
-
-See [docs/windows_ja.md](docs/windows_ja.md) and the upstream README before deploying it as a privilege-management control.
-
-## Windows compatibility
-
-Upstream 4.2.0 declares:
-
-~~~c
-extern Datum set_user(PG_FUNCTION_ARGS);
-~~~
-
-before `PG_FUNCTION_INFO_V1(set_user)`.
-
-On PostgreSQL 16 and newer, `PG_FUNCTION_INFO_V1()` declares the SQL-callable function with `PGDLLEXPORT` on Windows. The earlier non-export declaration therefore creates an MSVC linkage conflict.
-
-The pgextwin build applies a minimal build-workspace compatibility edit to use `PGDLLEXPORT` for that declaration. The pinned upstream repository and LICENSE remain the source of truth.
-
-The DLL export definition includes module entry points and SQL-callable functions discovered from the source.
-
-## Functional CI
-
-Every supported PostgreSQL major must pass:
-
-1. exact upstream LICENSE verification,
-2. MSVC x64 build,
-3. startup with `shared_preload_libraries=set_user`,
-4. `CREATE EXTENSION set_user`,
-5. create a non-superuser probe role,
-6. call `set_user()` and verify `current_user` changes while `session_user` remains postgres,
-7. call `reset_user()` and verify the original user is restored,
-8. verify both transition records in the actual PostgreSQL server log,
-9. package DLL, SQL/control files, and `set_user.h`.
-
-Pull requests and `main` validate only. A `release/<tag>` branch publishes only after the full matrix passes.
+Use the Release's SHA256SUMS.txt to verify downloads. SPDX SBOMs, vulnerability reports and signed attestations may be supplied with the Release. Test in a non-production environment first.
 
 ## License
 
-LICENSE is copied from upstream set_user and verified against the pinned source checkout.
-
-These binaries are unofficial pgextwin builds.
+For SQL/API usage and limitations, consult [upstream set_user](https://github.com/pgaudit/set_user). pgextwin is independent from the upstream authors. The included license notices apply.
