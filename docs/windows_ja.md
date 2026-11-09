@@ -2,7 +2,7 @@
 
 ## ファイル配置
 
-PostgreSQLを停止してから、対象majorのZIPを展開します。
+PostgreSQLを停止してから、対象のメジャーバージョン向けZIPを展開します。
 
 ~~~text
 ZIP\lib\set_user.dll
@@ -23,7 +23,7 @@ ZIP\include\set_user.h
 shared_preload_libraries = 'set_user'
 ~~~
 
-既に他Extensionをpreloadしている場合はカンマ区切りで追加します。
+ほかの拡張機能を既にプリロードしている場合は、カンマ区切りで追加します。
 
 PostgreSQLを再起動後:
 
@@ -33,7 +33,7 @@ CREATE EXTENSION set_user;
 
 ## 基本的な確認
 
-権限を付与した管理者が、許可されたroleへ遷移する例:
+権限を付与した管理者が、許可されたロールへ切り替える例:
 
 ~~~sql
 SELECT set_user('target_role');
@@ -44,9 +44,9 @@ SELECT current_user, session_user;
 
 実際の権限設計ではupstream READMEにあるallowlist/blocklist、superuser transition、session authorization、ログ動作を確認してください。
 
-## Windows compatibility
+## Windows互換性
 
-upstream 4.2.0には、PG16+のWindows headerが生成する `PGDLLEXPORT` 宣言と競合するprototypeがあります。pgextwin packageはbuild時にその宣言だけをWindows用linkageへ合わせています。
+上流4.2.0には、PG16以降のWindowsヘッダーが生成する `PGDLLEXPORT` 宣言と競合するプロトタイプ宣言があります。pgextwinパッケージは、ビルド時にその宣言だけをWindows向けのリンケージに合わせています。
 
 PG14/15も同じbuild hookを通しますが、CIで各majorの実動作を個別に確認します。
 

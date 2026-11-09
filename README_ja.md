@@ -12,10 +12,10 @@
 
 1. バックアップを取得し、[上流の導入手順](https://github.com/pgaudit/set_user)を確認します。
 2. 既存ファイルを置き換える前にPostgreSQLを停止します。対応するZIP内のlib/とshare/extension/以下を、PostgreSQLの同名ディレクトリに配置します。
-3. postgresql.confのshared_preload_librariesへset_userを追加し、PostgreSQLを再起動します。利用権限や監査の要件は上流ドキュメントで確認してください。
-4. 必要な設定を反映してPostgreSQLを起動し、利用するデータベースでCREATE EXTENSION set_user;を実行します。
+3. `postgresql.conf`の`shared_preload_libraries`にset_userを追加します。利用権限や監査の要件は上流ドキュメントで確認してください。
+4. 設定を反映してPostgreSQLを起動し、利用するデータベースで`CREATE EXTENSION set_user;`を実行します。稼働中のPostgreSQLで事前ロード設定を変更した場合は、再起動が必要です。
 
-ReleaseのSHA256SUMS.txtでZIPを照合してください。SPDX形式のSBOM、脆弱性レポート、署名付き証明の有無はReleaseで確認できます。本番導入前に検証環境で動作を確認してください。
+ダウンロードしたZIPを、Releaseに掲載された`SHA256SUMS.txt`と照合してください。SPDX形式のSBOM、脆弱性レポート、署名付き証明の有無はReleaseで確認できます。本番環境に導入する前に、検証環境で動作を確認してください。
 
 ## ライセンス
 
