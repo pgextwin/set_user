@@ -65,11 +65,18 @@ $baseSql = Join-Path $UpstreamDir "extension\set_user--$extVersion.sql"
 Copy-Item $baseTemplate $baseSql -Force
 
 $tempRoot = if ($env:RUNNER_TEMP) { $env:RUNNER_TEMP } else { [IO.Path]::GetTempPath() }
+$clStdLine = ''
+$pgMajorText = & (Join-Path $PgRoot 'bin\pg_config.exe') --version
+if ($pgMajorText -match '(\d+)\.') {
+    if ([int]$Matches[1] -ge 19) { $clStdLine = 'set "CL=/std:c11"' }
+}
+
 $cmdFile = Join-Path $tempRoot "set_user-build.cmd"
 
 @"
 @echo off
 call "$vsDevCmd" -arch=x64 -host_arch=x64
+$clStdLine
 if errorlevel 1 exit /b %errorlevel%
 cd /d "$UpstreamDir"
 
